@@ -189,11 +189,26 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
     public void add(E item) throws IllegalStateException {
         Node<E> cur = head, prev = null;
 
+        if(head==null){
+            head = new Node(item,head);
+        }
         // TODO: Find the (possible) insertion point.
+        while (cur != null) {
+            prev = cur;
+            cur = cur.next;
+        } // end while
 
-        // TODO: if duplicate item throw IllegalStateException 
+        // TODO: if duplicate item throw IllegalStateException
+        if (cur != null && cur.data == item) {
+            throw new IllegalStateException("No duplicate items!");
+        } // end if
 
         // TODO: Insert the new node just before cur. may need to modify head
+        if (prev != null) {
+            prev.next = new Node(item, cur);
+        } else {
+            head = new Node(item, cur);
+        }
 
     } // end method
 
@@ -219,7 +234,12 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
 
     public String toString() {
         // TODO: complete this method, may need local variables
+        Node cur = head;
 
+        while(cur != null){
+            out.println(cur.data);
+            cur = cur.next;
+        }
         return "Empty List\n"; // stub code remove when method completed
     } // end method
 
