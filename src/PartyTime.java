@@ -12,7 +12,7 @@ public class PartyTime {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        out.println("CPS 151 Assignment 3 by Danny Frederick");
+        out.println("CPS 151 Assignment 3 by Danny Frederick and Ramon Bordelies");
         tellPurpose();
         guests = new SLND_LinkedList<>("Guest List");
         victuals = new SLND_LinkedList<>("Food and Beverage List");
@@ -63,29 +63,33 @@ public class PartyTime {
             // catch block to catch the exception
             // print the message from the exception
             // end catch block
-            try{ //why the try block?
+
+            try{ //why the try block? I don't understand what the exception is
                 if(choice == 'a' || choice == 'A'){
-                    out.println("Add what name: ");
-                    String name = cin.nextLine();
-                    theList.add(name);
+                    add(theList);
                 }
                 else if(choice == 'f' || choice == 'F'){
-                    out.println("Find what name: ");
-                    String name = cin.nextLine();
-                    theList.find(name);
+                    find(theList);
                 }
                 else if(choice == 'p' || choice == 'P'){
                     theList.toString();
                 }
                 else if(choice == 'r' || choice == 'R'){
-                    out.println("Remove what name: ");
-                    String name = cin.nextLine();
-                    theList.remove(name);
+                    remove(theList);
                 }
                 else out.println("Invalid choice");
+            }//I probably did the catches wrong, need to see sample code
+            catch(NullPointerException e){//something is wrong with this exception, has to do with the if statement in the add method
+                out.println("NullPointerException - No duplicates");
             }
-            catch(Exception e) {
-                out.println("Exception - Invalid choice");
+            catch(IllegalStateException e) { //what type of exception is it?
+                out.println("IllegalStateException - No duplicates");
+            }
+            catch(NoSuchElementException e){
+                out.println("NoSuchElementException - Remove failed");
+            }
+            catch(StringIndexOutOfBoundsException e){
+                out.println("StringIndexOutOfBoundsException - Invalid Input");
             }
 
             choice = subMenuGetChoice();
@@ -111,12 +115,22 @@ public class PartyTime {
 
     private static void find(SLND<String> theList) {
         // TODO: complete this method
-        
+        out.print("Who to find in " + theList.name + "? ");
+        String item = cin.nextLine();
+        if (theList.find(item)) {
+            out.print(item + " is in the list\n");
+        } else {
+            out.print(item + " is not in the list\n");
+        }
+
     } // end method
 
     private static void remove(SLND<String> theList) {
         // TODO: complete this method
-
+        out.print("Who to remove in " + theList.name + "? ");
+        String item = cin.nextLine();
+        theList.remove(item);
+        out.print("Item removed\n");
     } // end method
 
     private static void tellPurpose() {
@@ -196,12 +210,16 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
         while (cur != null) {
             prev = cur;
             cur = cur.next;
+            if (cur.data.compareTo(item)==0) {  // if(cur.data == null)
+                throw new IllegalStateException("No duplicate items!");
+            } // end if
         } // end while
 
         // TODO: if duplicate item throw IllegalStateException
-        if (cur != null && cur.data == item) {
-            throw new IllegalStateException("No duplicate items!");
-        } // end if
+        //does not work
+//        if (cur.data.compareTo(item)==0) {  // if(cur.data == null)
+//            throw new IllegalStateException("No duplicate items!");
+//        } // end if
 
         // TODO: Insert the new node just before cur. may need to modify head
         if (prev != null) {
@@ -235,12 +253,15 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
     public String toString() {
         // TODO: complete this method, may need local variables
         Node cur = head;
+        if(cur == null){
+            return "Empty List\n";
+        }
 
         while(cur != null){
             out.println(cur.data);
             cur = cur.next;
         }
-        return "Empty List\n"; // stub code remove when method completed
+        return ""; // stub code remove when method completed
     } // end method
 
 
