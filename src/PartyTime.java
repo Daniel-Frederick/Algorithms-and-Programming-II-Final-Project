@@ -12,7 +12,7 @@ public class PartyTime {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        out.println("CPS 151 Assignment 3 by Danny Frederick and Ramon Bordelies");
+        out.println("CPS 151 Assignment 3 by Danny Frederick and Me my self and I");
         tellPurpose();
         guests = new SLND_LinkedList<>("Guest List");
         victuals = new SLND_LinkedList<>("Food and Beverage List");
