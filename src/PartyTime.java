@@ -48,7 +48,7 @@ public class PartyTime {
         out.println("\nMaintain: F)ood and beverage list, or G)uest list, " +
                 "or Q)uit the program");
         out.print(cmdCount + ". Your choice (F/G/Q): ");
-        return cin.nextLine().toUpperCase().charAt(0);
+        return cin.next().toUpperCase().charAt(0);
     } // end method
 
     private static void maintain(SLND<String> theList) {
