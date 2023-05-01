@@ -108,9 +108,9 @@ public class PartyTime {
         out.print("Who to find in " + theList.name + "? ");
         String item = cin.nextLine();
         if (theList.find(item)) {
-            out.print(item + " is in the list\n");
+            out.print(item + " is in "+theList.name+"\n");
         } else {
-            out.print(item + " is not in the list\n");
+            out.print(item + " is not in "+theList.name+"\n");
         }
 
     } // end method
@@ -207,7 +207,7 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
 
         // If duplicate item, throw IllegalStateException
         if (cur != null && item.equals(cur.data)) {
-            throw new IllegalStateException("No duplicate items!");
+            throw new IllegalStateException(item + " is already in "+ name);
         }
 
         // Insert the new node just before cur. May need to modify head.
@@ -226,7 +226,7 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
 
         // Check if the item is in the list
         if (find(item) == false) {
-            throw new NoSuchElementException("Item not found");
+            throw new NoSuchElementException("Item "+item+" is not found in "+name);
         }
 
         // Traverse the list
@@ -276,7 +276,8 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
             out.print("-");
         }
         out.println();
-        if(cur == null){
+
+        if(cur==null){
             return "Empty List\n";
         }
 
