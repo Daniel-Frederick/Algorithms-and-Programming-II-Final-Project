@@ -288,7 +288,6 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
         return ""; // stub code remove when method completed
     } // end method
 
-
     // add any other private methods you want
 
 } // end class
