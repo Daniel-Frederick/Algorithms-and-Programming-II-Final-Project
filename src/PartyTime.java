@@ -12,7 +12,7 @@ public class PartyTime {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        out.println("CPS 151 Assignment 3 by Danny Frederick and Me my self and I");
+        out.println("CPS 151 Assignment 3 by Danny Frederick and Ramon Bordelies");
         tellPurpose();
         guests = new SLND_LinkedList<>("Guest List");
         victuals = new SLND_LinkedList<>("Food and Beverage List");
@@ -30,11 +30,11 @@ public class PartyTime {
             // TODO: call "maintain" with appropriate argument
             // or say that the choice is invalid
 
-            if(choice == 'f' || choice == 'F'){
-                maintain(guests);
-            }
-            else if(choice == 'g' || choice == 'G'){
+            if(choice == 'F'){
                 maintain(victuals);
+            }
+            else if(choice == 'G'){
+                maintain(guests);
             }
             else
                 out.println("Invalid input");
@@ -65,36 +65,26 @@ public class PartyTime {
             // end catch block
 
             try{ //why the try block? I don't understand what the exception is
-                if(choice == 'a' || choice == 'A'){
+                if(choice == 'A'){
                     add(theList);
                 }
-                else if(choice == 'f' || choice == 'F'){
+                else if(choice == 'F'){
                     find(theList);
                 }
-                else if(choice == 'p' || choice == 'P'){
+                else if(choice == 'P'){
                     theList.toString();
                 }
-                else if(choice == 'r' || choice == 'R'){
+                else if(choice == 'R'){
                     remove(theList);
                 }
                 else out.println("Invalid choice");
             }//I probably did the catches wrong, need to see sample code
-            catch(NullPointerException e){//something is wrong with this exception, has to do with the if statement in the add method
-                out.println("NullPointerException - No duplicates");
+            catch(Exception e)
+            {
+                out.println(e.getMessage());
             }
-            catch(IllegalStateException e) { //what type of exception is it?
-                out.println("IllegalStateException - No duplicates");
-            }
-            catch(NoSuchElementException e){
-                out.println("NoSuchElementException - Remove failed");
-            }
-            catch(StringIndexOutOfBoundsException e){
-                out.println("StringIndexOutOfBoundsException - Invalid Input");
-            }
-
             choice = subMenuGetChoice();
         } // end loop
-
         out.println("Ended working with " + theList.name);
     } // end method
 
@@ -190,6 +180,7 @@ class Node<T> {
 
 //TODO:
 // ----------------- generic class SLND_LinkedList
+//this class has the add, remove, find, and toString methods for the linkedList being involved with both the Guest List and the Food and Bevarage List
 class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
 
     // fields of Node are public, but making head private does data hiding
@@ -203,24 +194,23 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
     public void add(E item) throws IllegalStateException {
         Node<E> cur = head, prev = null;
 
-        if(head==null){
+        if(head == null) {
             head = new Node(item,head);
         }
         // TODO: Find the (possible) insertion point.
         while (cur != null) {
             prev = cur;
             cur = cur.next;
-            if (cur.data.compareTo(item)==0) {  // if(cur.data == null)
-                throw new IllegalStateException("No duplicate items!");
-            } // end if
         } // end while
 
         // TODO: if duplicate item throw IllegalStateException
+        
         //does not work
-//        if (cur.data.compareTo(item)==0) {  // if(cur.data == null)
-//            throw new IllegalStateException("No duplicate items!");
-//        } // end if
-
+          if (cur.data.compareTo(item)==0) 
+          {  // if(cur.data == null)
+              throw new IllegalStateException("No duplicate items!");
+          } // end if
+        
         // TODO: Insert the new node just before cur. may need to modify head
         if (prev != null) {
             prev.next = new Node(item, cur);
@@ -233,20 +223,48 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
 
     public void remove(E item) throws NoSuchElementException {
         // TODO: complete this method, declare local variables needed
-
+        Node prev = null, cur = this.head;
+       
+        if(find(item) == false)
+        {
+            throw new NoSuchElementException("Item not found");
+        }
+        while (cur != null) {
+            // if the data at cur does not match value, move on
+            if (cur.data != item) {
+                prev = cur;
+                cur = cur.next;
+            }
+            else {   // node at cur holds the value, remove it
+                if (prev == null) // removing the first node in the list
+                    this.head = cur.next;
+                else                      // delink node with reference cur   
+                    prev.next = cur.next;
+                
+            } // end if
+        } // end loop
+        
+        
+    } // end method remove
+    
         // if item cannot be located, throw NoSuchElementException
-
         // remove the item, may have to modify head
-
-    } // end method
+         // end method
 
     public boolean find(E item) {
         // TODO: complete this method, may need local variables
 
         // if match found return true
-
-
-        // if no match found
+        Node cur = head;
+        while (cur != null) {
+            if (cur.data.equals(item))
+                return true;
+            
+            // did not find a match yet, so move on
+            cur = cur.next;
+        } // end loop
+        
+        // reached end of list without finding a match, so
         return false;
     } // end method
 
