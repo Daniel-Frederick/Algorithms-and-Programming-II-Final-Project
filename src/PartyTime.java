@@ -270,12 +270,13 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
     public String toString() {
         // TODO: complete this method, may need local variables
         Node cur = head;
+        String thing="";
         out.println(name);
         for(int i=0;i<name.length();i++){
             out.print("-");
         }
         out.println();
-        if(head == null){
+        if(cur == null){
             return "Empty List\n";
         }
 
