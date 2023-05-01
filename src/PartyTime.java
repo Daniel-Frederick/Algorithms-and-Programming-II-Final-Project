@@ -48,7 +48,7 @@ public class PartyTime {
         out.println("\nMaintain: F)ood and beverage list, or G)uest list, " +
                 "or Q)uit the program");
         out.print(cmdCount + ". Your choice (F/G/Q): ");
-        return cin.next().toUpperCase().charAt(0);
+        return cin.nextLine().toUpperCase().charAt(0);
     } // end method
 
     private static void maintain(SLND<String> theList) {
@@ -270,15 +270,15 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
     public String toString() {
         // TODO: complete this method, may need local variables
         Node cur = head;
-        String thing="";
+       
         out.println(name);
         for(int i=0;i<name.length();i++){
             out.print("-");
         }
         out.println();
 
-        if(cur==null){
-            return "Empty List\n";
+        if(cur == null){
+            out.println("Empty List\n");
         }
 
         while(cur != null){
