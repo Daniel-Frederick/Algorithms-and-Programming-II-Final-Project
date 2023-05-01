@@ -193,58 +193,57 @@ class SLND_LinkedList<E extends Comparable<E>> extends SLND<E> {
 
     public void add(E item) throws IllegalStateException {
         Node<E> cur = head, prev = null;
-
-        if(head == null) {
-            head = new Node(item,head);
+    
+        if (head == null) {
+            head = new Node(item, head);
+            return; // exit early since this is the only node in the list
         }
-        // TODO: Find the (possible) insertion point.
-        while (cur != null) {
+    
+        // Find the (possible) insertion point.
+        while (cur != null && item.compareTo(cur.data) > 0) {
             prev = cur;
             cur = cur.next;
         } // end while
-
-        // TODO: if duplicate item throw IllegalStateException
-        
-        //does not work
-          if (cur.data.compareTo(item)==0) 
-          {  // if(cur.data == null)
-              throw new IllegalStateException("No duplicate items!");
-          } // end if
-        
-        // TODO: Insert the new node just before cur. may need to modify head
+    
+        // If duplicate item, throw IllegalStateException
+        if (cur != null && item.equals(cur.data)) {
+            throw new IllegalStateException("No duplicate items!");
+        }
+    
+        // Insert the new node just before cur. May need to modify head.
         if (prev != null) {
             prev.next = new Node(item, cur);
         } else {
             head = new Node(item, cur);
         }
-
     } // end method
+    
 
 
     public void remove(E item) throws NoSuchElementException {
-        // TODO: complete this method, declare local variables needed
-        Node prev = null, cur = this.head;
-       
-        if(find(item) == false)
-        {
+        // Declare local variables needed
+        Node<E> prev = null, cur = this.head;
+    
+        // Check if the item is in the list
+        if (find(item) == false) {
             throw new NoSuchElementException("Item not found");
         }
+    
+        // Traverse the list
         while (cur != null) {
-            // if the data at cur does not match value, move on
-            if (cur.data != item) {
+            // If the data at cur does not match value, move on
+            if (!cur.data.equals(item)) {
                 prev = cur;
                 cur = cur.next;
-            }
-            else {   // node at cur holds the value, remove it
-                if (prev == null) // removing the first node in the list
+            } else { // node at cur holds the value, remove it
+                if (prev == null) { // removing the first node in the list
                     this.head = cur.next;
-                else                      // delink node with reference cur   
+                } else { // delink node with reference cur
                     prev.next = cur.next;
-                
+                }
+                break;
             } // end if
         } // end loop
-        
-        
     } // end method remove
     
         // if item cannot be located, throw NoSuchElementException
